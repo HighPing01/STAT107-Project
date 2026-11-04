@@ -3,6 +3,7 @@ title: "STAT107_Project"
 output: html_document
 ---
 
-test
+```{r}
+rm(list = ls())
+```
 
-test
