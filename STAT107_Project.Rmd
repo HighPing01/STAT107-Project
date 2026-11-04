@@ -5,4 +5,9 @@ output: html_document
 
 test
 
-test
+```{r}
+data_23_24 <- read.csv("23/24.csv")
+
+head(data_23_24)
+```
+
