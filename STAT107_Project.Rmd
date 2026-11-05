@@ -51,6 +51,9 @@ text(elite$height_cm, elite$PTS,
      cex = 0.7)
 
 ```
+```{r}
+
+```
 
 
 
