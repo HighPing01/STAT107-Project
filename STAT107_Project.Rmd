@@ -3,11 +3,61 @@ title: "STAT107_Project"
 output: html_document
 ---
 
-test
 
 ```{r}
-data_23_24 <- read.csv("23/24.csv")
+source("00_requirements.R")
+source("01_funct_DataCleaning.R")
 
-head(data_23_24)
+# Height file: height, weight, and PPG for every player
+nba <- read.csv("23_24_Height.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
+
+# Convert height to cm
+nba$height_cm <- height_to_cm(nba$HEIGHT)
+
+# Bring in minutes per game from the stats file (needed for later regression)
+stats <- read.csv("23_24.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
+nba$KEY   <- toupper(trimws(nba$PLAYER))
+stats$KEY <- toupper(trimws(stats$PLAYER))
+nba <- merge(nba, stats[, c("KEY", "MIN")], by = "KEY")
+
+
+elite <- filter_elite(nba, threshold = 25)
+nrow(elite)                    # expect 18
+
+save(nba, elite, file = "12_DataSaving.RData")
+
+
+
+
+
 ```
+
+```{r}
+plot(elite$height_cm, elite$PTS, pch = 16, col = "steelblue",
+     xlab = "Height (cm)", ylab = "PPG",
+     main = "Height vs PPG, Players Averaging 25+ PPG")
+abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
+cor(elite$height_cm, elite$PTS)
+
+# How many elite scorers at different cutoffs?
+thresholds <- c(20, 25, 30)
+sapply(thresholds, function(t) nrow(filter_elite(nba, threshold = t)))
+```
+```{r}
+elite <- filter_elite(nba, threshold = 25)
+
+plot(elite$height_cm, elite$PTS,
+     pch = 16, col = "steelblue", cex = 1.3,
+     xlab = "Height (cm)", ylab = "Points per game (PPG)",
+     main = "Height vs PPG: Players Averaging 25+ PPG, 2023-24",
+     xlim = range(elite$height_cm) + c(-8, 8),   # extra room for names
+     ylim = range(elite$PTS) + c(-1, 1))
+
+# Label each point with the player's name
+text(elite$height_cm, elite$PTS,
+     labels = elite$PLAYER,
+     pos = c(3, 1),          # alternates above/below to reduce overlap
+     cex = 0.7)
+```
+
 
