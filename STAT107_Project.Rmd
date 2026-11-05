@@ -2,19 +2,19 @@
 title: "STAT107_Project"
 output: html_document
 ---
+```{r}
+## Source libraries and functions
+source("00_requirements.R")
+source("01_funct_DataCleaning.R")
+```
 
 
 ```{r}
-source("00_requirements.R")
-source("01_funct_DataCleaning.R")
+## 23/24
 
-# Height file: height, weight, and PPG for every player
 nba <- read.csv("23_24_Height.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
-
-# Convert height to cm
 nba$height_cm <- height_to_cm(nba$HEIGHT)
 
-# Bring in minutes per game from the stats file (needed for later regression)
 stats <- read.csv("23_24.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
 nba$KEY   <- toupper(trimws(nba$PLAYER))
 stats$KEY <- toupper(trimws(stats$PLAYER))
@@ -22,28 +22,19 @@ nba <- merge(nba, stats[, c("KEY", "MIN")], by = "KEY")
 
 
 elite <- filter_elite(nba, threshold = 25)
-nrow(elite)                    # expect 18
+nrow(elite)
 
 save(nba, elite, file = "12_DataSaving.RData")
 
-
-
-
-
-```
-
-```{r}
 plot(elite$height_cm, elite$PTS, pch = 16, col = "steelblue",
      xlab = "Height (cm)", ylab = "PPG",
      main = "Height vs PPG, Players Averaging 25+ PPG")
 abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
 cor(elite$height_cm, elite$PTS)
 
-# How many elite scorers at different cutoffs?
 thresholds <- c(20, 25, 30)
 sapply(thresholds, function(t) nrow(filter_elite(nba, threshold = t)))
-```
-```{r}
+
 elite <- filter_elite(nba, threshold = 25)
 
 plot(elite$height_cm, elite$PTS,
@@ -56,8 +47,11 @@ plot(elite$height_cm, elite$PTS,
 # Label each point with the player's name
 text(elite$height_cm, elite$PTS,
      labels = elite$PLAYER,
-     pos = c(3, 1),          # alternates above/below to reduce overlap
+     pos = c(3, 1),
      cex = 0.7)
+
 ```
+
+
 
 
