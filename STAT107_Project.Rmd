@@ -117,6 +117,8 @@ abline(h = 25, lty = 2, col = "red")
 
 #In plot 3, between 6'0 and 7'00+, the median of PPG is very similar in between these height range. There are even some outliers in those groups who were able to score more than the rest. With the sole exception of those under 6'0, as they are rare, their data is very different.
 
+#Overall, from all these 3 plots, there isn't any strong evidence that proves that height is a big factor in terms of a players ability in scoring, as there ranges of PPG were very similar in almost all the height groups. With the sole exception of those under6'0, however since they are rare, the data provided is limited.
+
 ```
 
 ```{r}

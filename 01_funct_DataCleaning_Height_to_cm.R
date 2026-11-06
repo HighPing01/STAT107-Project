@@ -7,7 +7,6 @@ height_to_cm <- function(heights) {
   round((feet * 12 + inches) * 2.54, 1)
 }
 
-#Prepare data
 stat_data$PLAYER <- toupper(trimws(stat_data$PLAYER))
 general_data$PLAYER <- toupper(trimws(general_data$PLAYER))
 
