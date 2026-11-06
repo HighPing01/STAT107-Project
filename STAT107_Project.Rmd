@@ -9,16 +9,68 @@ source("01_funct_DataCleaning.R")
 ```
 
 
+```{r}
+## 23/24
+
+nba <- read.csv("23_24_Height.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
+nba$height_cm <- height_to_cm(nba$HEIGHT)
+
+stats <- read.csv("23_24.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
+nba$KEY   <- toupper(trimws(nba$PLAYER))
+stats$KEY <- toupper(trimws(stats$PLAYER))
+nba <- merge(nba, stats[, c("KEY", "MIN")], by = "KEY")
+
+
+elite <- filter_elite(nba, threshold = 25)
+nrow(elite)
+
+save(nba, elite, file = "12_DataSaving.RData")
+
+plot(elite$height_cm, elite$PTS, pch = 16, col = "steelblue",
+     xlab = "Height (cm)", ylab = "PPG",
+     main = "Height vs PPG, Players Averaging 25+ PPG")
+abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
+cor(elite$height_cm, elite$PTS)
+
+thresholds <- c(20, 25, 30)
+sapply(thresholds, function(t) nrow(filter_elite(nba, threshold = t)))
+
+elite <- filter_elite(nba, threshold = 25)
+
+plot(elite$height_cm, elite$PTS,
+     pch = 16, col = "steelblue", cex = 1.3,
+     xlab = "Height (cm)", ylab = "Points per game (PPG)",
+     main = "Height vs PPG: Players Averaging 25+ PPG, 2023-24",
+     xlim = range(elite$height_cm) + c(-8, 8),   # extra room for names
+     ylim = range(elite$PTS) + c(-1, 1))
+
+# Label each point with the player's name
+text(elite$height_cm, elite$PTS,
+     labels = elite$PLAYER,
+     pos = c(3, 1),
+     cex = 0.7)
+
+```
+
+
+24/25 Code:
+```{r}
+rm(list = ls())
+```
+
+
+
+
+
+25/26 Code:
 ```{r reset environment and load libraries}
 #Clearing the environment
 rm(list = ls())
-
 ```
 
 ```{r importing the dataset}
 stat_data <- read.csv("25_26.csv")
 general_data <- read.csv("25_26_Height.csv")
-
 ```
 
 ```{r}
@@ -28,11 +80,11 @@ general_data$PLAYER <- toupper(trimws(general_data$PLAYER))
 
 df <- merge(stat_data, general_data[, c("PLAYER","HEIGHT")], by="PLAYER")
 
-# Convert height like "7-4" to inches
+# Convert height to inches
 df$HT <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
   as.numeric(x[1])*12 + as.numeric(x[2]))
 
-df <- df[df$GP >= 20 & !is.na(df$HT), ]   # keep qualifying players
+df <- df[df$GP >= 20 & !is.na(df$HT), ]
 ```
 
 
@@ -116,56 +168,3 @@ abline(h = 25, lty = 2, col = "red")
 #Overall, from all these 3 plots, there isn't any strong evidence that proves that height is a big factor in terms of a players ability in scoring, as there ranges of PPG were very similar in almost all the height groups. With the sole exception of those under6'0, however since they are rare, the data provided is limited.
 
 ```
-
-
-
-
-```{r}
-## 23/24
-
-nba <- read.csv("23_24_Height.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
-nba$height_cm <- height_to_cm(nba$HEIGHT)
-
-stats <- read.csv("23_24.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
-nba$KEY   <- toupper(trimws(nba$PLAYER))
-stats$KEY <- toupper(trimws(stats$PLAYER))
-nba <- merge(nba, stats[, c("KEY", "MIN")], by = "KEY")
-
-
-elite <- filter_elite(nba, threshold = 25)
-nrow(elite)
-
-save(nba, elite, file = "12_DataSaving.RData")
-
-plot(elite$height_cm, elite$PTS, pch = 16, col = "steelblue",
-     xlab = "Height (cm)", ylab = "PPG",
-     main = "Height vs PPG, Players Averaging 25+ PPG")
-abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
-cor(elite$height_cm, elite$PTS)
-
-thresholds <- c(20, 25, 30)
-sapply(thresholds, function(t) nrow(filter_elite(nba, threshold = t)))
-
-elite <- filter_elite(nba, threshold = 25)
-
-plot(elite$height_cm, elite$PTS,
-     pch = 16, col = "steelblue", cex = 1.3,
-     xlab = "Height (cm)", ylab = "Points per game (PPG)",
-     main = "Height vs PPG: Players Averaging 25+ PPG, 2023-24",
-     xlim = range(elite$height_cm) + c(-8, 8),   # extra room for names
-     ylim = range(elite$PTS) + c(-1, 1))
-
-# Label each point with the player's name
-text(elite$height_cm, elite$PTS,
-     labels = elite$PLAYER,
-     pos = c(3, 1),
-     cex = 0.7)
-
-```
-
-
-
-```{r}
-rm(list = ls())
-```
-
