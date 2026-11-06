@@ -12,43 +12,30 @@ source("01_funct_DataCleaning.R")
 ```{r}
 ## 23/24
 
-nba <- read.csv("23_24_Height.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
-nba$height_cm <- height_to_cm(nba$HEIGHT)
-
-stats <- read.csv("23_24.csv", fileEncoding = "UTF-8-BOM", check.names = FALSE)
-nba$KEY   <- toupper(trimws(nba$PLAYER))
-stats$KEY <- toupper(trimws(stats$PLAYER))
-nba <- merge(nba, stats[, c("KEY", "MIN")], by = "KEY")
-
-
-elite <- filter_elite(nba, threshold = 25)
-nrow(elite)
-
-save(nba, elite, file = "12_DataSaving.RData")
-
-plot(elite$height_cm, elite$PTS, pch = 16, col = "steelblue",
-     xlab = "Height (cm)", ylab = "PPG",
-     main = "Height vs PPG, Players Averaging 25+ PPG")
-abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
-cor(elite$height_cm, elite$PTS)
-
-thresholds <- c(20, 25, 30)
-sapply(thresholds, function(t) nrow(filter_elite(nba, threshold = t)))
-
-elite <- filter_elite(nba, threshold = 25)
-
 plot(elite$height_cm, elite$PTS,
      pch = 16, col = "steelblue", cex = 1.3,
      xlab = "Height (cm)", ylab = "Points per game (PPG)",
      main = "Height vs PPG: Players Averaging 25+ PPG, 2023-24",
-     xlim = range(elite$height_cm) + c(-8, 8),   # extra room for names
+     xlim = range(elite$height_cm) + c(-8, 8),
      ylim = range(elite$PTS) + c(-1, 1))
+abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
+text(elite$height_cm, elite$PTS, labels = elite$PLAYER, pos = c(3, 1), cex = 0.7)
 
-# Label each point with the player's name
-text(elite$height_cm, elite$PTS,
-     labels = elite$PLAYER,
-     pos = c(3, 1),
-     cex = 0.7)
+plot(nba$height_cm, nba$PTS,
+     pch = 16, col = rgb(0, 0, 1, 0.3),
+     xlab = "Height (cm)", ylab = "Points per game (PPG)",
+     main = "Height vs PPG: All Players, 2023-24")
+abline(lm(PTS ~ height_cm, data = nba), col = "red", lwd = 2)
+
+thresholds <- c(20, 25, 30)
+data.frame(threshold = thresholds,
+           players = sapply(thresholds, function(t) nrow(filter_elite(nba, threshold = t))))
+
+# 1. The first graph represents the relationship between height vs and points per game. We have filtered out all the non-elite scorers (not averaging above 25ppg). This graph shows that there is a weak correlation between height and ppg. This year, taller players like Embiid, Doncic, and Giannis averaged higher points than shorter elite players. The clump of players around 25 ppg are all less than 190 cm, which shows that for this year there was a correlation. It must be noted that the line of best fit is influenced by a few strong outliers, Embiid, Luka, and Giannis are averaging much higher above the line than the rest of the group.
+
+# 2. The second scatterplot shows the distribution of all players in the NBA. The line of best fit shows that there is not much of a correlation between height and ppg (it is almost flat). The fairly normal distribution in this shows that while there are a few outliers in the elite category, there are not any major outliers than influence the general nba too much. There is a very weak relationship between height and PPG in this visualization. 
+
+# 3. The last calculation shows how many players are above 20 points, 25 points, and 30 points. This provides a perspective to why the elite players graph might look different from the general NBA, out of 500 players only 18 average above 25 points, which is heavily skewed by a few tall elite players that performed well over the season. As we look at other seasons, this might average out to reveal a very weak correlation between the two. 
 
 ```
 
