@@ -3,20 +3,16 @@ title: "STAT107_Project"
 output: html_document
 ---
 ```{r}
-<<<<<<< Updated upstream
-
 ## Source libraries and functions
 source("00_requirements.R")
 source("01_funct_DataCleaning_Height_to_cm.R")
 source("02_funct_DataCleaning_filterelitescorers.R")
 load("12_DataSaving.RData")
 
-=======
 # Updated upstream
 ## Source libraries and functions
 source("00_requirements.R")
 source("01_funct_DataCleaning.R")
->>>>>>> Stashed changes
 ```
 
 
@@ -53,7 +49,7 @@ df <- merge(stat_data, general_data[, c("PLAYER","HEIGHT")], by="PLAYER")
 df$HT <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
   as.numeric(x[1])*12 + as.numeric(x[2]))
 
-df <- df[df$GP >= 20 & !is.na(df$HT), ]   # keep qualifying players
+df <- df[df$GP >= 20 & !is.na(df$HT), ]
 ```
 
 
@@ -65,19 +61,6 @@ cat("\n")
 #Summary of Height
 summary(df$HT)
 cat("\n")
-
-#summary table
-stats_table <- df %>%
-  summarise(
-    # --- Points Per Game Stats ---
-    PPG_Mean = mean(PTS),
-    PPG_Median = median(PTS),
-    PPG_SD = sd(PTS),
-    PPG_Min = min(PTS),
-    PPG_Max = max(PTS),
-  )
-
-print(stats_table)
 ```
 
 
