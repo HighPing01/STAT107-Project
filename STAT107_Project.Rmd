@@ -67,11 +67,10 @@ general_data$PLAYER <- toupper(trimws(general_data$PLAYER))
 
 df <- merge(stat_data, general_data[, c("PLAYER","HEIGHT")], by="PLAYER")
 
-# Convert height to inches
-df$HT <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
-  as.numeric(x[1])*12 + as.numeric(x[2]))
+df$HT_cm <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
+  (as.numeric(x[1])*12 + as.numeric(x[2])) * 2.54)
 
-df <- df[df$GP >= 20 & !is.na(df$HT), ]
+df <- df[df$GP >= 20 & !is.na(df$HT_cm),] 
 ```
 
 
@@ -122,26 +121,34 @@ barplot(elite, col = "firebrick",
 
 
 ```{r Plots}
-#Plot1:
-plot(df$HT, df$PTS,
-     xlab = "Height (inches)", ylab = "Points per Game",
+# --- NOTE: Make sure you ran the cm conversion code first! ---
+# df$HT_cm must already exist in your dataframe.
+
+# Plot 1: Scatterplot
+plot(df$HT_cm, df$PTS,
+     xlab = "Height (cm)", ylab = "Points per Game",
      main = "Height vs Scoring", pch = 19, col = "steelblue")
-abline(lm(PTS ~ HT, data = df), col = "red", lwd = 2)   # trend line
+abline(lm(PTS ~ HT_cm, data = df), col = "red", lwd = 2)   # trend line
 abline(h = 25, lty = 2)    
 
 
-#Plot2:
-df$Group <- cut(df$HT, breaks = c(0,72,75,78,81,84,100),
-                labels = c("<6'0","6'0-6'2","6'3-6'5","6'6-6'8","6'9-6'11","7'0+"))
+# Plot 2: Bar Chart (Average PPG)
+df$Group_cm <- cut(df$HT_cm, 
+                   breaks = c(0, 183, 190.5, 196, 203, 210, 300),
+                   labels = c("<183", "183-190", "191-196", "197-203", "204-210", "210+"))
 
-avg <- tapply(df$PTS, df$Group, mean)
-barplot(avg, col = "steelblue",
-        main = "Average PPG by Height Group",
+avg_cm <- tapply(df$PTS, df$Group_cm, mean)
+barplot(avg_cm, col = "steelblue",
+        main = "Average PPG by Height Group (cm)",
         ylab = "Average Points", las = 2)
 
-#Plot3:
-boxplot(PTS ~ Group, data = df, col = "lightblue",
-        main = "Scoring Spread by Height", ylab = "Points per Game", las = 2)
+
+# Plot 3: Boxplot (Scoring Spread)
+boxplot(PTS ~ Group_cm, data = df, col = "lightblue",
+        main = "Scoring Spread by Height (cm)", 
+        ylab = "Points per Game", 
+        xlab = "Height (cm)",
+        las = 2)
 abline(h = 25, lty = 2, col = "red")
 ```
 
