@@ -41,16 +41,15 @@ save(nba, elite, file = "12_DataSaving.RData")
 
 ```{r}
 #25/26 Data Cleaning Steps:
+stat_data <- read.csv("25_26.csv")
+general_data <- read.csv("25_26_Height.csv")
 
 stat_data$PLAYER <- toupper(trimws(stat_data$PLAYER))
 general_data$PLAYER <- toupper(trimws(general_data$PLAYER))
 
-df <- merge(stat_data, general_data[, c("PLAYER","HEIGHT")], by="PLAYER")
+general_data$HT_cm <- sapply(strsplit(as.character(general_data$HEIGHT), "-"), function(x)
+  (as.numeric(x[1])*12 + as.numeric(x[2])) * 2.54)
 
-# Convert height like "7-4" to inches
-df$HT <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
-  as.numeric(x[1])*12 + as.numeric(x[2]))
-
-df <- df[df$GP >= 20 & !is.na(df$HT), ]
+general_data <- general_data[general_data$GP >= 20 & !is.na(general_data$HT_cm),] 
 ```
 

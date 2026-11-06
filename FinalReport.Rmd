@@ -1,7 +1,7 @@
 ---
 title: "Does Height Matter for scoring in the NBA?"
 output: pdf_document
-date: "2026-11-06"
+date: "20 26-11-06"
 author: "Stefan, Damia, Nolan"
 abstract: Does height matter for scoring in the NBA? This project examines whether taller players score more points per game (PPG), using player-level statistics from the NBA website, including height, PPG, and minutes played. Position and minutes played will be added as controls in later stages. So far, we have created preliminary visualizations comparing height and PPG across seasons, and we plan to adjust based on other external factors. In the 2023-24 season, the scatterplot of elite scorers (25+ PPG) suggests a correlation between height and PPG, but the third stat shows few players reach this threshold, and these few players strongly influence the overall pattern. Among all players, the relationship is weak. The 2025-26 season shows a similar picture, the first scatterplot of all players reveals only a weak association, the second scatterplot reveals that PPG by height group is slightly right-skewed, suggesting a small advantage for the tallest players, and boxplots show outliers that affect the taller groups more than the shorter ones. Overall, our preliminary results suggest that height has at most a modest relationship with scoring, and that a handful of outliers drive much of the pattern among the tallest players.
 ---
@@ -14,7 +14,7 @@ The central question of this project is whether a player’s height is associate
 
 Our goal is to test a hypothesis. We will formally test whether the relationship between height and PPG is statistically significant, and we will measure how large the relationship is. The null hypothesis is that height has no linear relationship with PPG, and the alternative is that a relationship exists. In later stages, we plan to control for other factors that affect scoring, such as minutes played and position, to see whether height still matters once these are accounted for.
 
-This analysis may benefit several groups. Coaches and scouts can use it to judge how much weight height deserves when evaluating scorers. Fans and fantasy basketball players can use it to understand which players tend to score more. Aspiring players, especially those who are shorter than average, can see whether height is a real barrier to becoming a high scorer or whether other qualities matter more.
+This analysis may benefit several groups. College coaches and scouts can use it to judge how much weight height deserves when evaluating scorers. Eventual predictive models can assess how much height of players will affect their scoring performances in the major leagues. A relationship might help fans and fantasy basketball players use it to understand which players tend to score more. Aspiring basketball players, especially those who won't reach the heights of the average NBA player, can see evaluate whether height is a barrier to becoming a high scorer and adapt their game based on this analysis.
 
 # Executive Summary
 
@@ -27,3 +27,16 @@ This analysis may benefit several groups. Coaches and scouts can use it to judge
 
 The data for this project come from player statistics published on the NBA website (NBA.com), which we downloaded as CSV files. For each season we use one file of player biographical information and one file of player statistics. We analyze three seasons: 2023-24, 2024-25, and 2025-26.
 
+# Visualization 
+
+kms
+
+# Analysis
+
+Our analysis will test whether height is associated with scoring and how large that association is, using correlation tests and then with other models to account for our unused factors. We will run the visualiations on each season, then compare amongst them to see if the conclusions are consistent. 
+
+1. Correlation test will compare the relationship between height and PPG, with the null hypotehsis being that there is no linear relationship, and the alternative that a relationship exists. We will report the correlation co-efficient, confidence interval, p-value, and run it separately based on all NBA players versus the elite scorers. 
+
+2. We will also run a linear regression to create an estimation of how many additional points per game are associated with each added centimeter of height. We will use the R-squared coefficient to determine how much variatino in PPG that can be explained by height. We might also plan on doing more regressions with controls, to check whether the "height effect" remains once minutes played and positions are accounted for.
+
+3. Because our boxplots show outliers in taller groups, we will also compare the effects of how a small number of superstar players might influence the results, and temper them amongst our results. In addition, we have to take into account form dips based on seasons, as there might potentially be different effects of heights during each season. We expect to find a weak relationship between height and scoring once all our variables are accounted for, but we also must acknowledge the weaknesses to our study. Primarily, the elite group of players is small and is heavily influenced by 1 or 2 outliers, and because this is observational data, a significant result would end up showing an association, rather than causation. 

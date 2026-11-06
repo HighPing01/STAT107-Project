@@ -6,6 +6,8 @@ output: html_document
 ## Source libraries and functions
 source("00_requirements.R")
 source("01_funct_DataCleaning.R")
+source("02_funct_DataCleaning_filterelitescorers.R")
+load("12_DataSaving.RData")
 ```
 
 
