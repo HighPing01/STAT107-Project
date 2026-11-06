@@ -132,7 +132,14 @@ abline(h = 25, lty = 2, col = "red")
 
 ```
 
+
+
+
 ```{r}
+nba <- read.csv("23_24_Height.csv")
+nba$height_cm <- height_to_cm(nba$HEIGHT)
+elite <- filter_elite(nba, threshold = 25)
+
 plot(elite$height_cm, elite$PTS,
      pch = 16, col = "steelblue", cex = 1.3,
      xlab = "Height (cm)", ylab = "Points per game (PPG)",
@@ -143,48 +150,6 @@ abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
 text(elite$height_cm, elite$PTS, labels = elite$PLAYER, pos = c(3, 1), cex = 0.7)
 ```
 
-*Interpretation: (write what the plot suggests here).*
-
-## All players: height vs PPG
-
-```{r all-plot, fig.width=8, fig.height=6}
-plot(nba$height_cm, nba$PTS,
-     pch = 16, col = rgb(0, 0, 1, 0.3),
-     xlab = "Height (cm)", ylab = "Points per game (PPG)",
-     main = "Height vs PPG: All Players, 2023-24")
-abline(lm(PTS ~ height_cm, data = nba), col = "red", lwd = 2)
-```
-
-*Interpretation: (write what the plot suggests here).*
-
-## How many elite scorers?
-
-```{r counts}
-plot(elite$height_cm, elite$PTS,
-     pch = 16, col = "steelblue", cex = 1.3,
-     xlab = "Height (cm)", ylab = "Points per game (PPG)",
-     main = "Height vs PPG: Players Averaging 25+ PPG, 2023-24",
-     xlim = range(elite$height_cm) + c(-8, 8),
-     ylim = range(elite$PTS) + c(-1, 1))
-abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
-text(elite$height_cm, elite$PTS, labels = elite$PLAYER, pos = c(3, 1), cex = 0.7)
-```
-
-*Interpretation: (write what the plot suggests here).*
-
-## All players: height vs PPG
-
-```{r all-plot, fig.width=8, fig.height=6}
-plot(nba$height_cm, nba$PTS,
-     pch = 16, col = rgb(0, 0, 1, 0.3),
-     xlab = "Height (cm)", ylab = "Points per game (PPG)",
-     main = "Height vs PPG: All Players, 2023-24")
-abline(lm(PTS ~ height_cm, data = nba), col = "red", lwd = 2)
-```
-
-*Interpretation: (write what the plot suggests here).*
-
-## How many elite scorers?
 
 ```{r counts}
 #23/24
@@ -219,21 +184,8 @@ data.frame(threshold = thresholds,
 ```
 
 
-```{r}
-nba <- read.csv("23_24_Height.csv")
-nba$height_cm <- height_to_cm(nba$HEIGHT)
-elite <- filter_elite(nba, threshold = 25)
 
-plot(elite$height_cm, elite$PTS,
-     pch = 16, col = "steelblue", cex = 1.3,
-     xlab = "Height (cm)", ylab = "Points per game (PPG)",
-     main = "Height vs PPG: Players Averaging 25+ PPG, 2023-24",
-     xlim = range(elite$height_cm) + c(-8, 8),
-     ylim = range(elite$PTS) + c(-1, 1))
-abline(lm(PTS ~ height_cm, data = elite), col = "red", lwd = 2)
-text(elite$height_cm, elite$PTS, labels = elite$PLAYER, pos = c(3, 1), cex = 0.7)
 
-```
 
 # Coding for What is the percentage of Players shorter than 6’5 feet? Year 24-25
 ```{r}
