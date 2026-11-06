@@ -1,0 +1,7 @@
+---
+title: "Does Height Matter for scoring in the NBA?"
+output: pdf_document
+date: "2026-11-06"
+author: "Stefan, Damia, Nolan"
+---
+

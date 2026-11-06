@@ -3,16 +3,14 @@ title: "STAT107_Project"
 output: html_document
 ---
 ```{r}
+
+
 ## Source libraries and functions
 source("00_requirements.R")
 source("01_funct_DataCleaning_Height_to_cm.R")
 source("02_funct_DataCleaning_filterelitescorers.R")
 load("12_DataSaving.RData")
 
-# Updated upstream
-## Source libraries and functions
-source("00_requirements.R")
-source("01_funct_DataCleaning.R")
 ```
 
 
@@ -49,7 +47,7 @@ df <- merge(stat_data, general_data[, c("PLAYER","HEIGHT")], by="PLAYER")
 df$HT <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
   as.numeric(x[1])*12 + as.numeric(x[2]))
 
-df <- df[df$GP >= 20 & !is.na(df$HT), ]
+df <- df[df$GP >= 20 & !is.na(df$HT), ]   # keep qualifying players
 ```
 
 
@@ -61,6 +59,19 @@ cat("\n")
 #Summary of Height
 summary(df$HT)
 cat("\n")
+
+#summary table
+stats_table <- df %>%
+  summarise(
+    # --- Points Per Game Stats ---
+    PPG_Mean = mean(PTS),
+    PPG_Median = median(PTS),
+    PPG_SD = sd(PTS),
+    PPG_Min = min(PTS),
+    PPG_Max = max(PTS),
+  )
+
+print(stats_table)
 ```
 
 
@@ -195,6 +206,14 @@ abline(lm(PTS ~ height_cm, data = nba), col = "red", lwd = 2)
 thresholds <- c(20, 25, 30)
 data.frame(threshold = thresholds,
            players = sapply(thresholds, function(t) nrow(filter_elite(nba, threshold = t))))
+
+
+
+# 1. The first graph represents the relationship between height vs and points per game. We have filtered out all the non-elite scorers (not averaging above 25ppg). This graph shows that there is a weak correlation between height and ppg. This year, taller players like Embiid, Doncic, and Giannis averaged higher points than shorter elite players. The clump of players around 25 ppg are all less than 190 cm, which shows that for this year there was a correlation. It must be noted that the line of best fit is influenced by a few strong outliers, Embiid, Luka, and Giannis are averaging much higher above the line than the rest of the group.
+
+# 2. The second scatterplot shows the distribution of all players in the NBA. The line of best fit shows that there is not much of a correlation between height and ppg (it is almost flat). The fairly normal distribution in this shows that while there are a few outliers in the elite category, there are not any major outliers than influence the general nba too much. There is a very weak relationship between height and PPG in this visualization. 
+
+# 3. The last calculation shows how many players are above 20 points, 25 points, and 30 points. This provides a perspective to why the elite players graph might look different from the general NBA, out of 500 players only 18 average above 25 points, which is heavily skewed by a few tall elite players that performed well over the season. As we look at other seasons, this might average out to reveal a very weak correlation between the two. 
 ```
 
 
