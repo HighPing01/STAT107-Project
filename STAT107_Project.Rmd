@@ -81,6 +81,39 @@ cat("Players Shorter than 195.58 cm (6'5\"): ", short_count, "\n")
 cat("Percentage Shorter than 6'5\":         ", round(percentage, 2), "%\n")
 ```
 
+#Coding for What is the number of players that have scored 25+ points per game? Year 24-25
+```{r}
+library(tidyverse)
+getwd()
+```
+
+```{r}
+df_2425 <- read_csv("24_25.csv")
+```
+
+```{r}
+high_scorers <- df_2425 %>%
+  filter(PTS >= 25)
+```
+
+```{r}
+total_players <- nrow(df_2425)
+count_25plus  <- nrow(high_scorers)
+pct_25plus    <- (count_25plus / total_players) * 100
+```
+
+```{r}
+cat("=== 2024-2025 NBA Season: 25+ PPG Analysis ===\n")
+cat("Total Players Analyzed:              ", total_players, "\n")
+cat("Players Scoring 25+ Points Per Game: ", count_25plus, "\n")
+cat("Percentage of Players (25+ PPG):     ", round(pct_25plus, 2), "%\n\n")
+```
+
+```{r}
+cat("Players with 25+ PPG:\n")
+print(high_scorers %>% select(PLAYER, TEAM, PTS))
+```
+
 
 
 
