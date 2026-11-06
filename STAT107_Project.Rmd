@@ -3,9 +3,103 @@ title: "STAT107_Project"
 output: html_document
 ---
 ```{r}
+<<<<<<< Updated upstream
 ## Source libraries and functions
 source("00_requirements.R")
 source("01_funct_DataCleaning.R")
+=======
+install.packages(c("ggrepel", "patchwork"))
+
+```
+
+
+```{r reset environment and load libraries}
+#Clearing the environment
+rm(list = ls())
+
+#Load Libraries
+library(tidyverse)
+library(scales)
+library(ggrepel)
+library(patchwork)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(ggrepel)
+library(scales)
+```
+
+```{r importing the dataset}
+stat_data <- read.csv("25_26.csv")
+general_data <- read.csv("25_26_Height.csv")
+
+```
+
+```{r}
+# ---- Prepare data (run once) ----
+stat_data$PLAYER <- toupper(trimws(stat_data$PLAYER))
+general_data$PLAYER <- toupper(trimws(general_data$PLAYER))
+
+df <- merge(stat_data, general_data[, c("PLAYER","HEIGHT")], by="PLAYER")
+
+# Convert height like "7-4" to inches
+df$HT <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
+  as.numeric(x[1])*12 + as.numeric(x[2]))
+
+df <- df[df$GP >= 20 & !is.na(df$HT), ]   # keep qualifying players
+```
+
+
+```{r What is the number of players that have scored 25+ points per game?}
+n_elite <- sum(df$PTS >= 25)
+n_rest  <- sum(df$PTS <  25)
+
+barplot(c(n_elite, n_rest),
+        names.arg = c("25+ PPG", "Under 25"),
+        col = c("firebrick", "steelblue"),
+        main = "Players Scoring 25+ PPG vs Under 25",
+        ylab = "Number of Players")
+text(c(0.7, 1.9), c(n_elite, n_rest), labels = c(n_elite, n_rest), pos = 3)
+
+elite <- table(df$Group[df$PTS >= 25])
+barplot(elite, col = "firebrick",
+        main = "Where the 25+ PPG Scorers Are",
+        ylab = "Number of Elite Scorers", las = 2)
+```
+
+```{r Analysis of above}
+# Only a small percentage of nba players can reach 25+ Points per game, and in that small percentage the majority of players who scored that much were in the heights of 6'3-6'5 with
+```
+
+
+```{r Plot1}
+plot(df$HT, df$PTS,
+     xlab = "Height (inches)", ylab = "Points per Game",
+     main = "Height vs Scoring", pch = 19, col = "steelblue")
+abline(lm(PTS ~ HT, data = df), col = "red", lwd = 2)   # trend line
+abline(h = 25, lty = 2)    
+```
+
+```{r Plot2}
+df$Group <- cut(df$HT, breaks = c(0,72,75,78,81,84,100),
+                labels = c("<6'0","6'0-6'2","6'3-6'5","6'6-6'8","6'9-6'11","7'0+"))
+
+avg <- tapply(df$PTS, df$Group, mean)
+barplot(avg, col = "steelblue",
+        main = "Average PPG by Height Group",
+        ylab = "Average Points", las = 2)
+```
+
+```{r Plot3}
+
+boxplot(PTS ~ Group, data = df, col = "lightblue",
+        main = "Scoring Spread by Height", ylab = "Points per Game", las = 2)
+abline(h = 25, lty = 2, col = "red")
+```
+
+```{r Analysis from plot 1-3}
+
+>>>>>>> Stashed changes
 ```
 
 
