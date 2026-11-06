@@ -1,0 +1,40 @@
+---
+title: "11_DataCleaning.Rmd"
+output: pdf_document
+date: "2026-11-06"
+---
+```{r}
+source("00_requirements.R")
+source("01_funct_DataCleaning_Height_to_cm.R")
+load("12_DataSaving.RData")
+
+
+```
+
+
+```{r}
+#23/24 Data Cleaning Steps
+
+nba_raw <- read.csv("23_24_Height.csv")
+dim(nba_raw)
+
+nba <- nba_raw[, c("PLAYER", "TEAM", "AGE", "HEIGHT", "WEIGHT", "GP", "PTS")]
+colSums(is.na(nba))
+nba$TEAM <- as.factor(nba$TEAM)
+str(nba)
+
+nba$height_cm <- height_to_cm(nba$HEIGHT)
+nba$elite     <- nba$PTS >= 25
+summary(nba$height_cm)
+table(nba$elite)  
+
+elite <- filter_elite(nba, threshold = 25)
+nrow(elite)  
+
+save(nba, elite, file = "12_DataSaving.RData")
+
+
+
+
+```
+
