@@ -13,14 +13,6 @@ source("01_funct_DataCleaning.R")
 #Clearing the environment
 rm(list = ls())
 
-#Load Libraries
-library(tidyverse)
-library(scales)
-library(ggrepel)
-library(patchwork)
-library(ggplot2)
-library(dplyr)
-library(tidyr)
 ```
 
 ```{r importing the dataset}
