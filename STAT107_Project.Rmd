@@ -222,6 +222,7 @@ cat("Total Players in Dataset:               ", total_count, "\n")
 cat("Players Shorter than 195.58 cm (6'5\"): ", short_count, "\n")
 cat("Percentage Shorter than 6'5\":         ", round(percentage, 2), "%\n")
 ```
+Analysis: 153 out of 569 players (or 26.89%) in the dataset are shorter than 6'5' (195.58 cm), according to the R script analysis for player heights. This shows that about 25% of the NBA player population under analysis is under 6'5, which is consistent with the usual roster distribution where shorter players are mostly found in backcourt guard positions.
 
 #Coding for What is the number of players that have scored 25+ points per game? Year 24-25
 ```{r}
@@ -255,7 +256,12 @@ cat("Percentage of Players (25+ PPG):     ", round(pct_25plus, 2), "%\n\n")
 cat("Players with 25+ PPG:\n")
 print(high_scorers %>% select(PLAYER, TEAM, PTS))
 ```
-
+Analysis: 180 out of 569 players (or 31.63%) in the sample scored 25 or more points per game (PPG),
+according to the R script output that was given. A crucial analytical finding, however, is that this
+count seems abnormally high because of a possible data problem: top players in the output display
+totals around 34–37 PPG, and standard NBA single-season scoring averages seldom feature nearly one
+third of the league above 25 PPG. This suggests that the PTS column may represent total points,
+normalized metrics, or fantasy values rather than actual per-game averages.
 
 
 
