@@ -3,5 +3,27 @@ title: "Does Height Matter for scoring in the NBA?"
 output: pdf_document
 date: "2026-11-06"
 author: "Stefan, Damia, Nolan"
+abstract: Does height matter for scoring in the NBA? This project examines whether taller players score more points per game (PPG), using player-level statistics from the NBA website, including height, PPG, and minutes played. Position and minutes played will be added as controls in later stages. So far, we have created preliminary visualizations comparing height and PPG across seasons, and we plan to adjust based on other external factors. In the 2023-24 season, the scatterplot of elite scorers (25+ PPG) suggests a correlation between height and PPG, but the third stat shows few players reach this threshold, and these few players strongly influence the overall pattern. Among all players, the relationship is weak. The 2025-26 season shows a similar picture, the first scatterplot of all players reveals only a weak association, the second scatterplot reveals that PPG by height group is slightly right-skewed, suggesting a small advantage for the tallest players, and boxplots show outliers that affect the taller groups more than the shorter ones. Overall, our preliminary results suggest that height has at most a modest relationship with scoring, and that a handful of outliers drive much of the pattern among the tallest players.
 ---
+
+# Introduction
+
+Basketball is often one of the major sports thought to be heavily reliant on tall players. Height helps with rebounding, shot selection, playing defense, and these have led to the common perception that short players are at an inherent disadvantage in the NBA. But in the NBA, there are several prolific scorers that aren't the tallest, like Steph Curry. This raises our central question, does height actually matter for scoring in the NBA?
+
+The central question of this project is whether a player’s height is associated with the number of points he scores per game (PPG). Using individual statistics from the NBA website, we compare height and PPG across multiple seasons. The preliminary visualizations so far suggest a weak relationship across all players, with a possible stronger pattern among elite scorers, defined as players averaging 25 or more points per game. Because few players reach this threshold, a handful of elite tall players may be driving this pattern, and we want to eventually examine all the factors that influence this. 
+
+Our goal is to test a hypothesis. We will formally test whether the relationship between height and PPG is statistically significant, and we will measure how large the relationship is. The null hypothesis is that height has no linear relationship with PPG, and the alternative is that a relationship exists. In later stages, we plan to control for other factors that affect scoring, such as minutes played and position, to see whether height still matters once these are accounted for.
+
+This analysis may benefit several groups. Coaches and scouts can use it to judge how much weight height deserves when evaluating scorers. Fans and fantasy basketball players can use it to understand which players tend to score more. Aspiring players, especially those who are shorter than average, can see whether height is a real barrier to becoming a high scorer or whether other qualities matter more.
+
+# Executive Summary
+
+- stat
+- stat2
+- stat3
+- death
+
+# Data
+
+The data for this project come from player statistics published on the NBA website (NBA.com), which we downloaded as CSV files. For each season we use one file of player biographical information and one file of player statistics. We analyze three seasons: 2023-24, 2024-25, and 2025-26.
 
