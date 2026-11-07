@@ -6,3 +6,4 @@ height_to_cm <- function(heights) {
   inches <- as.numeric(sapply(parts, `[`, 2))
   round((feet * 12 + inches) * 2.54, 1)
 }
+

@@ -13,7 +13,7 @@ Sourced into the main rmd document
 #12_DataSaving.RData -> saves environment to be loaded in visualization rmd
 # STAT107_Project.RMD: our main file which encases our code and preliminary analysis. 
 # FinalReport.RMD: our report file that includes our knitted report with title, abstract, and other stuff.
-# FinalReport.pdf: report file in pdf format
+# FinalReport.pdf: report file in pdf format  
 
 
 # Step by Step Instructions
