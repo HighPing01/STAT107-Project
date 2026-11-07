@@ -5,9 +5,7 @@ output: html_document
 ```{r}
 ## Source libraries and functions
 source("00_requirements.R")
-source("01_funct_DataCleaning_Height_to_cm.R")
-source("02_funct_DataCleaning_filterelitescorers.R")
-load("12_DataSaving.RData")
+source("01_funct_DataCleaning.R")
 ```
 
 
@@ -57,40 +55,109 @@ rm(list = ls())
 rm(list = ls())
 ```
 
+```{r}
+lines <- readLines("25_26_Height.csv")
+length(lines)                    # how many lines total
+lengths <- count.fields("25_26_Height.csv", sep = ",")   # fields per line
+table(lengths)                   # should be one count; if not, you have ragged rows
+which(lengths != lengths[1])     # rows that don't match the header length
+
+cat("\n")
+strsplit(lines[1], ",")[[1]]     # see exactly how R splits the header
+```
+
+
+
+```{r importing the dataset}
+stat_data <- read.csv("25_26.csv")
+general_data <- read.csv("25_26_Height.csv")
+```
+
+```{r}
+#Prepare data
+stat_data$PLAYER <- toupper(trimws(stat_data$PLAYER))
+general_data$PLAYER <- toupper(trimws(general_data$PLAYER))
+
+df <- merge(stat_data, general_data[, c("PLAYER","HEIGHT")], by="PLAYER")
+
+df$HT_cm <- sapply(strsplit(as.character(df$HEIGHT), "-"), function(x)
+  (as.numeric(x[1])*12 + as.numeric(x[2])) * 2.54)
+
+df <- df[df$GP >= 20 & !is.na(df$HT_cm),] 
+```
+
+
 ```{r Summary of data}
 #Summary of PTS
-summary(general_data$PTS)
+summary(df$PTS)
 cat("\n")
 
 #Summary of Height
-summary(general_data$HT)
+summary(df$HT)
 cat("\n")
+
+#summary table
+stats_table <- df %>%
+  summarise(
+    # --- Points Per Game Stats ---
+    PPG_Mean = mean(PTS),
+    PPG_Median = median(PTS),
+    PPG_SD = sd(PTS),
+    PPG_Min = min(PTS),
+    PPG_Max = max(PTS),
+  )
+
+print(stats_table)
 ```
+
+
+```{r What is the number of players that have scored 25+ points per game?}
+n_elite <- sum(df$PTS >= 25)
+n_rest  <- sum(df$PTS <  25)
+
+barplot(c(n_elite, n_rest),
+        names.arg = c("25+ PPG", "Under 25"),
+        col = c("firebrick", "steelblue"),
+        main = "Players Scoring 25+ PPG vs Under 25",
+        ylab = "Number of Players")
+text(c(0.7, 1.9), c(n_elite, n_rest), labels = c(n_elite, n_rest), pos = 3)
+
+elite <- table(df$Group[df$PTS >= 25])
+barplot(elite, col = "firebrick",
+        main = "Where the 25+ PPG Scorers Are",
+        ylab = "Number of Elite Scorers", las = 2)
+```
+
+```{r Analysis of above}
+# Only a small percentage of nba players can reach 25+ Points per game, and in that small percentage the majority of players who scored that much were in the heights of 6'3-6'5. However, no matter the height, anyone can become an elite scorer.
+```
+
+
 ```{r Plots}
 # --- NOTE: Make sure you ran the cm conversion code first! ---
 # df$HT_cm must already exist in your dataframe.
 
 # Plot 1: Scatterplot
-plot(general_data$HT_cm, general_data$PTS,
+plot(df$HT_cm, df$PTS,
      xlab = "Height (cm)", ylab = "Points per Game",
      main = "Height vs Scoring", pch = 19, col = "steelblue")
-abline(lm(PTS ~ HT_cm, data = general_data), col = "red", lwd = 2)   # trend line
+abline(lm(PTS ~ HT_cm, data = df), col = "red", lwd = 2)   # trend line
 abline(h = 25, lty = 2)    
 
 
 # Plot 2: Bar Chart (Average PPG)
-general_data$Group_cm <- cut(general_data$HT_cm, 
+df$Group_cm <- cut(df$HT_cm, 
                    breaks = c(0, 183, 190.5, 196, 203, 210, 300),
                    labels = c("<183", "183-190", "191-196", "197-203", "204-210", "210+"))
 
-avg_cm <- tapply(general_data$PTS, general_data$Group_cm, mean)
+avg_cm <- tapply(df$PTS, df$Group_cm, mean)
 barplot(avg_cm, col = "steelblue",
         main = "Average PPG by Height Group (cm)",
         ylab = "Average Points", las = 2)
 
 
 # Plot 3: Boxplot (Scoring Spread)
-boxplot(PTS ~ Group_cm, data = general_data, col = "lightblue",
+boxplot(PTS ~ Group_cm, data = df, col = "lightblue",
         main = "Scoring Spread by Height (cm)", 
         ylab = "Points per Game", 
         xlab = "Height (cm)",
@@ -107,24 +174,4 @@ abline(h = 25, lty = 2, col = "red")
 
 #Overall, from all these 3 plots, there isn't any strong evidence that proves that height is a big factor in terms of a players ability in scoring, as there ranges of PPG were very similar in almost all the height groups. With the sole exception of those under6'0, however since they are rare, the data provided is limited.
 
-```
-
-```{r What is the number of players that have scored 25+ points per game?}
-n_elite <- sum(general_data$PTS >= 25)
-n_rest  <- sum(general_data$PTS <  25)
-
-barplot(c(n_elite, n_rest),
-        names.arg = c("25+ PPG", "Under 25"),
-        col = c("firebrick", "steelblue"),
-        main = "Players Scoring 25+ PPG vs Under 25",
-        ylab = "Number of Players")
-text(c(0.7, 1.9), c(n_elite, n_rest), labels = c(n_elite, n_rest), pos = 3)
-
-elite <- table(general_data$Group[general_data$PTS >= 25])
-barplot(elite, col = "firebrick",
-        main = "Where the 25+ PPG Scorers Are",
-        ylab = "Number of Elite Scorers", las = 2)
-```
-```{r Analysis of above}
-# Only a small percentage of nba players can reach 25+ Points per game, and in that small percentage the majority of players who scored that much were in the heights of 6'3-6'5. However, no matter the height, anyone can become an elite scorer.
 ```
