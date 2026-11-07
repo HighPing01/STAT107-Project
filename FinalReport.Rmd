@@ -39,3 +39,14 @@ Our analysis will test whether height is associated with scoring and how large t
 2. We will also run a linear regression to create an estimation of how many additional points per game are associated with each added centimeter of height. We will use the R-squared coefficient to determine how much variatino in PPG that can be explained by height. We might also plan on doing more regressions with controls, to check whether the "height effect" remains once minutes played and positions are accounted for.
 
 3. Because our boxplots show outliers in taller groups, we will also compare the effects of how a small number of superstar players might influence the results, and temper them amongst our results. In addition, we have to take into account form dips based on seasons, as there might potentially be different effects of heights during each season. We expect to find a weak relationship between height and scoring once all our variables are accounted for, but we also must acknowledge the weaknesses to our study. Primarily, the elite group of players is small and is heavily influenced by 1 or 2 outliers, and because this is observational data, a significant result would end up showing an association, rather than causation. 
+
+# Summary of Individual Contribution
+
+  # Stefan 
+  Assigned to the 25/26 NBA season. Analyzed the csv data in the data cleaning file, and produced 5 visualizations to represent the relationship between PPG and height in two populations, the entire NBA and the elite scorers. Summarized his findings, and helped to author the Final Report.
+  
+  # Damia
+  Assigned to the 24/25 NBA season. Analyzed the csv data in the data cleaning file, and produced ___ visualizations to represent the relationship between PPG and height in __ populations. She then documented her maintakeaways from her visualizations and how they support our main hypothesis. 
+  
+  #Nolan
+  Assigned to the 23/24 NBA season. Created the data cleaning functions, and processsed the data before creating 2 visualizations that summarized the difference between the NBA overall and elite scorer populations. Completed the README file and the FinalReport rmd. 
