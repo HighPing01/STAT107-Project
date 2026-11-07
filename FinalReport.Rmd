@@ -18,10 +18,9 @@ This analysis may benefit several groups. College coaches and scouts can use it 
 
 # Executive Summary
 
-- stat
-- stat2
-- stat3
-- death
+- From the 25/26 season statistics, the data show no proof that height is a strong factor in determing whether a player can score
+- For both the 23/24 and 25/26 seasons, the elite scorers (those who score 25+ppg), have a slight correlation between height and ppg.
+- In the 23/24 season there are 18 elite scorers, and the 25/26 season has 17 elite scorers, showing the low sample size with outliers affecting the data heavily.
 
 # Data
 
@@ -29,7 +28,7 @@ The data for this project come from player statistics published on the NBA websi
 
 # Visualization 
 
-kms
+Our preliminary visualizations can be found in the Stat107_Project.RMD. The graphs that apply to the entire NBA suggest a very weak/no correlation between height and PPG. This challenges our hypothesis that there is a relationship between height and scoring in the NBA. The graphs that filter for elite scorers only provide a weak/medium correlation between height and scoring, although these do not necessarily support our hypothesis due to the low sample size and tendency for outliers to skew the data. We aim to generate further data visualizations that illustrate the effect of minutes played, and position (aswell as other unforseen factors) on the ability for a player to score. Eventually, we will probably find that other factors are more indicative of a player's PPG than height.
 
 # Analysis
 
