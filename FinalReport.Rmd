@@ -20,7 +20,7 @@ This analysis may benefit several groups. College coaches and scouts can use it 
 
 - Based on our visualizations of the entire NBA, there is a weak relationship between height and PPG, showing that overall height does not affect scoring performance.
 - Based on our visualizatinos of the elite scorers, there is a possibility that there is a weak relationship between height and ppg. Overall, when looking at the elite scorers only, the line of best fit slightly trends up. 
-- In the 23/24 season there are 18 elite scorers, and the 25/26 season has 17 elite scorers, showing the low sample size with outliers affecting the data heavily. In the future, we should look at how different charateristics/variables affect the data. 
+- Across the 3 seasons, there are generally less than 20 elite scorers per season, showing the low sample size with outliers affecting the data heavily. In the future, we should look at how different charateristics/variables affect the data. 
 
 # Data
 
@@ -38,6 +38,8 @@ knitr::include_graphics(here::here("Figures", "Plot4.png"))
 knitr::include_graphics(here::here("Figures", "Plot5.png"))
 knitr::include_graphics(here::here("Figures", "Plot6.png"))
 knitr::include_graphics(here::here("Figures", "Plot7.png"))
+knitr::include_graphics(here::here("Figures", "Plot8.png"))
+knitr::include_graphics(here::here("Figures", "Plot9.png"))
 ```
 
 Our preliminary visualizations can be found in the Stat107_Project.RMD. The graphs that apply to the entire NBA suggest a very weak/no correlation between height and PPG. This challenges our hypothesis that there is a relationship between height and scoring in the NBA. The graphs that filter for elite scorers only provide a weak/medium correlation between height and scoring, although these do not necessarily support our hypothesis due to the low sample size and tendency for outliers to skew the data. We aim to generate further data visualizations that illustrate the effect of minutes played, and position (aswell as other unforseen factors) on the ability for a player to score. Eventually, we will probably find that other factors are more indicative of a player's PPG than height.

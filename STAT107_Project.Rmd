@@ -46,6 +46,51 @@ data.frame(threshold = thresholds,
 ```{r}
 rm(list = ls())
 ```
+```{r}
+ggplot(df_plot, aes(x = Group, y = pct, fill = Group)) +
+  geom_col(alpha = 0.8, width = 0.6) +
+  geom_text(aes(label = paste0(round(pct, 1), "% (", n, " players)")),
+            vjust = -0.5) +
+  scale_y_continuous(limits = c(0, 100)) +
+    labs(
+    title = "Percentage of NBA Players Shorter than 6'5\" (2024-25)",
+    x = NULL,
+    y = "Percentage of Players"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+df <- read_csv("24_25.csv", skip = 1, col_names = c(
+  "RANK", "PLAYER", "TEAM", "AGE", "GP", "W", "L", "MIN", "PTS",
+  "FGM", "FGA", "FG%", "3PM", "3PA", "3P%", "FTM", "FTA", "FT%",
+  "OREB", "DREB", "REB", "AST", "TOV", "STL", "BLK", "PF",
+  "TFP", "HSFP", "DD2", "TD3", "+/-"
+))
+
+
+scorers_25 <- df %>% filter(PTS >= 25)
+
+cat("Players averaging 25+ PPG:", nrow(scorers_25), "\n")
+
+ggplot(scorers_25, aes(x = reorder(PLAYER, PTS), y = PTS, fill = PTS)) +
+  geom_col() +
+  geom_text(aes(label = PTS), hjust = -0.2) +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 36)) +
+  scale_fill_gradient(low = "skyblue", high = "steelblue") +
+  labs(
+    title = "NBA Players Averaging 25+ Points Per Game (2024-25)",
+    x = NULL,
+    y = "Points Per Game (PPG)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+# The NBA is clearly a league for tall people. Of the 569 players in the 2024-25 season, 416 (73.1%) stand 6'5" or above, while just 153 (26.9%) fall under that mark, so nearly three in four players reach it. In fact, 6'5" is the league’s most frequent height, shared by 73 players. Many of the shorter players are only slightly below the cutoff, at 6'3" or 6'4", and truly short players are uncommon. Keep in mind that “shorter” is relative here, since these players are still taller than most people. To find out whether being taller leads to more scoring, the next step would be to compare player height with points per game.
+
+# Only 13 of the 569 players in the 2024-25 NBA averaged 25 or more points per game, about 2.3% of the league. Shai Gilgeous-Alexander leads at 32.7, clearly ahead of Giannis Antetokounmpo (30.4) and Nikola Jokić (29.6), who are the only others near 30. Below them, scoring drops off quickly, and the last eight players are bunched between 25.2 and 26.8. LaMelo Ball is last at 25.2, 7.5 points behind the leader.
+```
 
 
 

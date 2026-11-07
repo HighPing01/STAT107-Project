@@ -14,11 +14,13 @@ Sourced into the main rmd document
 # STAT107_Project.RMD: our main file which encases our code and preliminary analysis. 
 # FinalReport.RMD: our report file that includes our knitted report with title, abstract, and other stuff.
 # FinalReport.pdf: report file in pdf format  
+# The Figures folder holds PNG files of every visualization.
+Plots 1-9 are for the FinalReport RMD, and are our generated visualizations. 
 
 
 # Step by Step Instructions
-1. 00_Requirements.R -> importants packages and loads libraries
-2. 01_funct_DataCleaning.R: loads function that converts height to centimeters
-3. 02_funct_DataCleaning_filterelitescorers.R: loads function that filters elite scorers
+1. 00_Requirements.R -> import the packages and loads libraries
+2. 01_funct_DataCleaning.R: load the function that converts height to centimeters
+3. 02_funct_DataCleaning_filterelitescorers.R: load function that filters elite scorers
 4. 11_DataCleaning.R -> processes csv files and parses through them to setup for graphing
-5. Stat107_Project.RMD: run by pressing "run current chunk" in every chunk
+5. Stat107_Project.RMD: run by pressing "run current chunk" in every chunk to see visualizations
